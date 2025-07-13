@@ -1,0 +1,491 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=IBM+Plex+Sans:wght@400;500&display=swap');
+
+/**
+ * ===================================================================
+ * Design System: Variables & Global Styles
+ * ===================================================================
+ */
+
+:root {
+  --brand-gold: #E5A04A;
+  --brand-gold-hover: #F0B879;
+  --brand-gold-accessible: #B57E31;
+  --brand-indigo: #2C3E50;
+  --brand-indigo-hover: #3E536C;
+  --neutral-bg: #FAF7F2;
+  --neutral-card: #FFFFFF;
+  --neutral-text: #343434;
+  --neutral-border: #EAEAEA;
+  --hero-bg-color: #FAD9C1;
+  --rainbow-gradient: linear-gradient(to right, #E40303, #FF8C00, #FFED00, #008026, #004DFF, #750787);
+  --font-heading: 'Lora', serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2.5rem;
+  --space-xl: 4rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--neutral-text);
+  background-color: var(--neutral-bg);
+}
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+p { margin-bottom: 1.25em; }
+p:last-child { margin-bottom: 0; }
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  color: var(--brand-indigo);
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+h1 { font-size: clamp(2.25rem, 5vw, 3.25rem); }
+h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
+
+a {
+  color: var(--brand-gold-accessible);
+  text-decoration: none;
+  font-weight: 500;
+}
+a:hover, a:focus { text-decoration: underline; }
+
+/* NEW: External link icon for usability */
+a[target="_blank"]::after {
+  content: ' \002197'; /* Unicode for ↗ arrow */
+  display: inline-block;
+  font-weight: bold;
+  font-size: 0.9em;
+  transform: translateY(-2px);
+  margin-left: 0.1em;
+  text-decoration: none !important;
+}
+/* Don't apply icon to image links */
+.accreditation-logo a::after {
+  content: '';
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/**
+ * ===================================================================
+ * Reusable Components
+ * ===================================================================
+ */
+
+/* Header & Navigation */
+.site-header {
+  background-color: rgba(250, 247, 242, 0.8);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  position: sticky; top: 0; z-index: 100;
+}
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-s) 0;
+  position: relative;
+}
+.logo { 
+  font-family: var(--font-heading); 
+  font-size: 1.5rem; 
+  font-weight: 600; 
+  background-image: var(--rainbow-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: var(--brand-indigo);
+  transition: color 0.4s ease;
+}
+.logo:hover { 
+  text-decoration: none;
+  color: rgba(0,0,0,0);
+}
+.site-nav ul { list-style: none; display: flex; gap: var(--space-m); }
+.site-nav a { color: var(--brand-indigo); font-weight: 500; }
+.site-nav a.active { color: var(--brand-gold-accessible); font-weight: 600; }
+.nav-toggle {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  font-size: 1.8rem; line-height: 1;
+  color: var(--brand-indigo);
+  padding: 0.25em;
+  z-index: 101;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.8em 1.6em;
+  border: 2px solid transparent;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+.btn::after { content: ''; } /* Prevent external link icon on buttons */
+
+.btn-primary:hover, .btn-primary:focus,
+.btn-secondary:hover, .btn-secondary:focus {
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+
+.btn-primary { background-color: var(--brand-indigo); color: #fff; }
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--brand-indigo-hover);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.btn-secondary { background-color: transparent; color: var(--brand-gold-accessible); border-color: var(--brand-gold-accessible); }
+.btn-secondary:hover, .btn-secondary:focus {
+  background-color: var(--brand-gold-accessible);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* NEW: Styles for disabled/coming soon buttons */
+.btn[aria-disabled="true"] {
+  background-color: #ccc;
+  border-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+.btn[aria-disabled="true"]:hover, .btn[aria-disabled="true"]:focus {
+  transform: none;
+  box-shadow: none;
+  background-color: #ccc;
+  color: #666;
+}
+
+/**
+ * REFACTOR: Consolidated Card Component
+ */
+.card {
+  background: var(--neutral-card);
+  border: 1px solid var(--neutral-border);
+  border-radius: 1rem;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.card--resource {
+  overflow: hidden; /* For containing the image border-radius */
+}
+/* NEW: Coming soon card style */
+.card--coming-soon {
+  opacity: 0.7;
+}
+
+.card__image {
+  background-color: #EAEAEA;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card__image .resource-play-icon {
+  width: 50px;
+  height: 50px;
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.card__body {
+  padding: var(--space-l);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Makes this div fill the card's height */
+}
+
+.card__body h3 {
+  font-size: 1.35rem;
+  min-height: 2.7em; /* Consistent height for 1 or 2-line headings */
+  margin-bottom: 0.5rem;
+}
+
+.card__body .fee {
+  font-weight: 500;
+  margin: var(--space-m) 0;
+  color: var(--brand-indigo);
+}
+
+.card__body > .btn {
+  margin-top: auto; /* Pushes the button to the bottom */
+}
+
+
+/* Footer */
+.site-footer {
+  background-color: var(--neutral-bg);
+  padding: var(--space-l) 0;
+  text-align: center;
+  border-top: 1px solid var(--neutral-border);
+  color: var(--neutral-text);
+}
+.footer-nav ul { list-style: none; display: flex; gap: var(--space-m); justify-content: center; margin-bottom: var(--space-s); }
+.footer-nav a {
+  font-size: 0.9rem;
+  color: var(--neutral-text);
+  font-weight: 400;
+}
+.footer-nav a.active {
+    font-weight: 500;
+    text-decoration: underline;
+}
+.footer-nav a:hover {
+  color: var(--brand-gold-accessible);
+  text-decoration: underline;
+}
+
+/**
+ * ===================================================================
+ * Layout Utilities
+ * ===================================================================
+ */
+
+.grid {
+  display: grid;
+  gap: var(--space-l);
+}
+
+.grid--2-col {
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr; /* Ensures columns in a row are same height */
+}
+
+.grid--auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+
+/**
+ * ===================================================================
+ * Page & Section Specific Styles
+ * ===================================================================
+ */
+
+main > section:not(.hero) {
+  padding: var(--space-xl) 0;
+}
+
+/* Hero Section (Home Page) */
+.hero {
+  background: var(--hero-bg-color);
+  color: var(--brand-indigo);
+  text-align: center;
+  position: relative;
+  padding-bottom: 120px;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100px;
+  background-color: var(--neutral-bg);
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+}
+.hero .container {
+  padding-top: var(--space-xl);
+  position: relative;
+  z-index: 1;
+}
+.hero h1, .hero h2 { color: var(--brand-indigo); }
+.hero h1 { margin-bottom: 0.5em; }
+.hero h2 { font-family: var(--font-body); font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: 400; color: var(--neutral-text); }
+.hero p { max-width: 650px; margin-left: auto; margin-right: auto; margin-bottom: var(--space-l); }
+
+/* Section Titles (used on Home, Counselling, etc.) */
+section h2 { margin-bottom: var(--space-l); text-align: center; }
+
+/* About Section (Home Page) */
+.about-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-l);
+  align-items: start;
+  text-align: left;
+}
+.about-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 300px;
+  border-radius: 1rem;
+  position: sticky;
+  top: 120px;
+  overflow: hidden;
+}
+.about-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.about-text .credentials {
+  list-style-position: outside;
+  padding-left: 1.5em;
+}
+.accreditation-logo {
+  margin-top: var(--space-l);
+  max-width: 320px;
+  border: 1px solid var(--neutral-border);
+  padding: var(--space-s);
+  border-radius: 8px;
+  background-color: var(--neutral-card);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+}
+.accreditation-logo a { display: block; }
+.accreditation-logo img { display: block; width: 100%; height: auto; }
+
+/* Interior Page Content (Counselling, Professionals, Legal) */
+.lead-paragraph {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: var(--space-m) auto var(--space-l);
+  /* UPDATED: Changed from 'center' to 'left' for readability */
+  text-align: left;
+}
+
+.booking-embed-container {
+  margin: 0 auto var(--space-xl);
+  max-width: 900px;
+  border: 1px solid var(--neutral-border);
+  border-radius: 8px;
+  background-color: var(--neutral-card);
+  padding: var(--space-l);
+}
+.booking-embed-container .placeholder-text {
+  padding: var(--space-xl);
+  color: #aaa;
+  font-style: italic;
+  text-align: center;
+}
+/* ADDED: Styles for the direct contact section on Contact page */
+.direct-contact {
+  text-align: center;
+  max-width: 550px;
+  margin: var(--space-xl) auto 0;
+  padding: var(--space-l);
+  background: var(--neutral-card);
+  border-radius: 1rem;
+  border: 1px solid var(--neutral-border);
+}
+.direct-contact h2 { font-size: 1.75rem; margin-bottom: var(--space-m); }
+
+.commitment-section,
+.professional-offering {
+  text-align: left;
+  max-width: 750px; /* Standardized width for text blocks */
+  margin: 0 auto;
+}
+.commitment-section h2,
+.professional-offering h2 {
+  text-align: center;
+}
+.professional-offering {
+  margin-bottom: var(--space-xl);
+  padding-top: var(--space-l);
+  border-top: 1px solid var(--neutral-border);
+}
+.professional-offering:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+.professional-offering .offering-cta {
+  text-align: center;
+  margin-top: var(--space-m);
+}
+
+.commitment-section article { margin-bottom: var(--space-l); }
+.commitment-section h3 { margin-bottom: 0.5rem; }
+.final-cta { margin-top: var(--space-l); text-align: center; }
+
+.legal-links {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-l);
+}
+.legal-links li { margin-bottom: var(--space-s); }
+.legal-links a { font-size: 1.2rem; font-weight: 500; }
+
+.hero h1 .text-highlight {
+  color: var(--brand-gold-accessible);
+}
+
+/**
+ * ===================================================================
+ * Media Queries & Responsive Styles
+ * ===================================================================
+ */
+
+@media (max-width: 768px) {
+  .hero { padding-bottom: 80px; }
+  .hero::after { height: 60px; }
+
+  /* Mobile Navigation */
+  .nav-toggle { display: block; }
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--neutral-bg);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    border-top: 1px solid var(--neutral-border);
+  }
+  .site-nav.is-open { display: block; }
+  .site-nav ul { flex-direction: column; gap: 0; width: 100%; }
+  .site-nav li { border-bottom: 1px solid var(--neutral-border); }
+  .site-nav a { display: block; padding: var(--space-s) var(--space-m); }
+  .site-nav li:last-child { border-bottom: none; }
+
+  /* Stack grid columns and layouts */
+  .grid--2-col,
+  .about-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+  }
+
+  .about-image { position: static; margin: 0 auto; }
+  .card__body { padding: var(--space-m); }
+  .card__body h3 { min-height: 0; }
+  
+  /* ADDED: Adjust padding on mobile for embed */
+  .booking-embed-container {
+    padding: var(--space-m);
+  }
+}
